@@ -5,14 +5,14 @@ import { fileURLToPath } from 'url';
 const fileName = fileURLToPath(import.meta.url);
 const dirName = path.dirname(fileName);
 
-const STORAGE_FILE = path.join(dirName, '../data/shared-user.json');
+const STORAGE_FILE = path.join(dirName, '../data/shared-category.json');
 
-export class UserStorage {
-  static saveUser(userData: any) {
-    fs.writeFileSync(STORAGE_FILE, JSON.stringify(userData, null, 2));
+export class CategoryStorage {
+  static saveCategory(categoryData: any) {
+    fs.writeFileSync(STORAGE_FILE, JSON.stringify(categoryData, null, 2));
   }
 
-  static loadUser(): any {
+  static loadCategory(): any {
     if (fs.existsSync(STORAGE_FILE)) {
       return JSON.parse(fs.readFileSync(STORAGE_FILE, 'utf-8'));
     }
