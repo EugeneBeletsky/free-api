@@ -6,10 +6,14 @@ import { createCategoryPayload } from '../../../factories/category.factory.js';
 import { UserStorage } from '../../../helpers/user.storage.js';
 import { CategoryStorage } from '../../../helpers/category.storage.js';
 import { ProductStorage } from '../../../helpers/product.storage.js';
-import { getProductSchema } from '../../../schemas/getProduct.schema.js';
 import fs from 'fs';
 import path from 'path';
 import { faker } from '@faker-js/faker';
+import {
+  productSuccessSchema,
+  productDeleteSchema,
+  productListSchema
+} from '../../../schemas/product.schemas.js';
 
 test.describe('Products CRUD', () => {
   test.describe.configure({ mode: 'serial' });
@@ -90,6 +94,9 @@ test.describe('Products CRUD', () => {
     expect(data.data.stock).toBe(payload.stock);
     expect(data.data).toHaveProperty('_id');
     ProductStorage.saveProduct(data.data);
+
+    //check schema of createProduct
+    expect(data).toMatchSchema(productSuccessSchema);
   });
 
   test('Create product with access with invalid data', async ({ request }) => {
@@ -113,13 +120,16 @@ test.describe('Products CRUD', () => {
     const getAllProductsResponse = await api.getAllProducts();
     expect(getAllProductsResponse.status()).toBe(200);
 
-    const getAllData = await getAllProductsResponse.json();
-    const products = getAllData.data.products;
+    const data = await getAllProductsResponse.json();
+    const products = data.data.products;
     expect(Array.isArray(products)).toBe(true);
 
     const filePath = path.resolve('./data/products.json');
     fs.writeFileSync(filePath, JSON.stringify(products, null, 2));
     expect(products.length).toBeGreaterThan(0);
+
+    //check schema of getAllProducts
+    expect(data).toMatchSchema(productListSchema);
   });
 
   test('Get product by id', async ({ request }) => {
@@ -139,8 +149,9 @@ test.describe('Products CRUD', () => {
     expect(data.data._id).toBe(productData._id);
     expect(data.data.stock).toBe(productData.stock);
     expect(data.data.price).toBe(productData.price);
+
     //check schema of getProductByIdResponse
-    expect(data).toMatchSchema(getProductSchema);
+    expect(data).toMatchSchema(productSuccessSchema);
   });
 
   test('Get product by invalid id', async ({ request }) => {
@@ -204,6 +215,9 @@ test.describe('Products CRUD', () => {
       const body = await deleteProductByIdresponse.json();
       expect(body.success).toBe(true);
       expect(body.message).toBe('Product deleted successfully');
+
+      //check schema of deleteProduct
+      expect(body).toMatchSchema(productDeleteSchema);
     });
 
     await test.step('Verify count decreased and ID is gone', async () => {
