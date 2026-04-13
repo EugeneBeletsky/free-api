@@ -1,5 +1,6 @@
 import { APIRequestContext, APIResponse } from '@playwright/test';
 import { CategoryPayload } from '../factories/category.factory.js';
+import { ProductPayload } from '../factories/product.factory.js';
 
 export class ProductsApi {
   constructor(private request: APIRequestContext) {}
@@ -11,7 +12,7 @@ export class ProductsApi {
     return response;
   }
 
-  async createProduct(body: any, accessToken?: string): Promise<APIResponse> {
+  async createProduct(body: ProductPayload, accessToken?: string): Promise<APIResponse> {
     const customHeaders: Record<string, string> = {
       Accept: 'application/json'
     };
@@ -42,7 +43,7 @@ export class ProductsApi {
     return response;
   }
 
-  async updateProduct(id: string, body: any, accessToken?: string): Promise<APIResponse> {
+  async updateProduct(id: string, body: Partial<ProductPayload>, accessToken?: string): Promise<APIResponse> {
     const response = await this.request.patch(`/api/v1/ecommerce/products/${id}`, {
       data: {
         price: Number(body.price),

@@ -119,3 +119,19 @@ export const productListSchema = {
   },
   required: ['statusCode', 'data', 'success']
 };
+
+// get create product without access schema
+export const productWithoutAccessSchema = {
+  type: 'object',
+  properties: {
+    statusCode: { type: 'integer' },
+    data: { type: 'null' },
+    success: { type: 'boolean' },
+    errors: { 
+      type: 'array',
+      items: {}
+    },
+    message: { type: 'string' },
+  },
+  required: ['statusCode', 'data', 'success', 'errors', 'message']
+};
