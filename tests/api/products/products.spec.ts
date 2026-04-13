@@ -1,10 +1,12 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
+import { expect } from '../../../helpers/matchers.js';
 import { ProductsApi } from '../../../api/products.api.js';
 import { createProductPayload } from '../../../factories/product.factory.js';
 import { createCategoryPayload } from '../../../factories/category.factory.js';
 import { UserStorage } from '../../../helpers/user.storage.js';
 import { CategoryStorage } from '../../../helpers/category.storage.js';
 import { ProductStorage } from '../../../helpers/product.storage.js';
+import { getProductSchema } from '../../../schemas/getProduct.schema.js';
 import fs from 'fs';
 import path from 'path';
 import { faker } from '@faker-js/faker';
@@ -137,9 +139,11 @@ test.describe('Products CRUD', () => {
     expect(data.data._id).toBe(productData._id);
     expect(data.data.stock).toBe(productData.stock);
     expect(data.data.price).toBe(productData.price);
+    //check schema of getProductByIdResponse
+    expect(data).toMatchSchema(getProductSchema);
   });
 
-    test('Get product by invalid id', async ({ request }) => {
+  test('Get product by invalid id', async ({ request }) => {
     const api = new ProductsApi(request);
     const authData = UserStorage.loadUser();
     const productData = ProductStorage.loadProduct();

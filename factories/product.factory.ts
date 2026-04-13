@@ -11,7 +11,10 @@ export interface ProductPayload {
   mainImage: any; //stream or buffer
 }
 
-export const createProductPayload = (category?: string, overrides?: Partial<ProductPayload>): ProductPayload => ({
+export const createProductPayload = (
+  category?: string,
+  overrides?: Partial<ProductPayload>
+): ProductPayload => ({
   name: faker.commerce.productName(),
   price: Number(faker.commerce.price()),
   description: faker.commerce.productDescription(),

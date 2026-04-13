@@ -8,5 +8,12 @@
     "skipLibCheck": true,
     "outDir": "dist",
     "types": ["node"]
-  }
+  },
+  "include": [
+    "helpers/**/*.ts",
+    "tests/**/*.ts",
+    "api/**/*.ts",
+    "factories/**/*.ts",
+    "playwright.config.ts"
+  ]
 }
