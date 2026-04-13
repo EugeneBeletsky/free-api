@@ -90,12 +90,12 @@ test.describe('Products CRUD', () => {
     ProductStorage.saveProduct(data.data);
   });
 
-    test('Get all products', async ({ request }) => {
+  test('Get all products', async ({ request }) => {
     const api = new ProductsApi(request);
-    const getAllResponse = await api.getAllProducts();
-    expect(getAllResponse.status()).toBe(200);
+    const getAllProductsResponse = await api.getAllProducts();
+    expect(getAllProductsResponse.status()).toBe(200);
 
-    const getAllData = await getAllResponse.json();
+    const getAllData = await getAllProductsResponse.json();
     const products = getAllData.data.products;
     expect(Array.isArray(products)).toBe(true);
 
@@ -129,14 +129,14 @@ test.describe('Products CRUD', () => {
     const productData = ProductStorage.loadProduct();
     const newPrice = faker.number.int({ min: 1, max: 100 });
 
-    const response = await api.updateProduct(
+    const updateResponse = await api.updateProduct(
       productData._id,
       { price: newPrice, category: productData.category },
       userData.accessToken
     );
 
-    const data = await response.json();
-    expect(response.status()).toBe(200);
+    const data = await updateResponse.json();
+    expect(updateResponse.status()).toBe(200);
 
     expect(data.statusCode).toBe(200);
     expect(data.success).toBe(true);
@@ -145,5 +145,42 @@ test.describe('Products CRUD', () => {
     expect(data.data._id).toBe(productData._id);
     expect(data.data.stock).toBe(productData.stock);
     expect(data.data.price).toBe(newPrice);
+  });
+
+  test('Delete product by id', async ({ request }) => {
+    const api = new ProductsApi(request);
+    const userData = UserStorage.loadUser();
+    const productData = ProductStorage.loadProduct();
+
+    let countBefore: number;
+
+    await test.step('Get initial products count', async () => {
+      const getAllProductsResponse = await api.getAllProducts();
+      const body = await getAllProductsResponse.json();
+      countBefore = body.data.products.length;
+    });
+
+    await test.step('Delete the product', async () => {
+      const deleteProductByIdresponse = await api.deleteProduct(
+        productData._id,
+        userData.accessToken
+      );
+      expect(deleteProductByIdresponse.status()).toBe(200);
+      const body = await deleteProductByIdresponse.json();
+      expect(body.success).toBe(true);
+      expect(body.message).toBe('Product deleted successfully');
+    });
+
+    await test.step('Verify count decreased and ID is gone', async () => {
+      const getAllProductsResponse = await api.getAllProducts();
+      const body = await getAllProductsResponse.json();
+      const products = body.data.products;
+      const countAfter = products.length;
+
+      expect(countAfter).toBe(countBefore - 1);
+
+      const isProductStillExists = products.some((p: any) => p._id === productData._id);
+      expect(isProductStillExists).toBe(false);
+    });
   });
 });
