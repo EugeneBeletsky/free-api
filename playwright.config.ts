@@ -1,3 +1,4 @@
+import './helpers/matchers.js';
 import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
