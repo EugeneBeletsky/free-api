@@ -12,9 +12,9 @@ export interface LoginPayload {
   password: string;
 }
 
-export const createRegisterPayload = () : RegisterPayload => ({
+export const createRegisterPayload = (): RegisterPayload => ({
   email: faker.internet.email(),
   password: faker.internet.password(),
   role: 'ADMIN',
-  username: faker.internet.username().toLowerCase() 
+  username: faker.internet.username().toLowerCase()
 });

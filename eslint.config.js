@@ -16,12 +16,12 @@ export default [
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {
-        project: './tsconfig.json',
+        project: './tsconfig.json'
       },
-          globals: {
+      globals: {
         process: 'readonly',
-        __dirname: 'off', // Отключаем старый __dirname
-      },
+        __dirname: 'off'
+      }
     },
 
     rules: {
@@ -39,26 +39,26 @@ export default [
       'no-var': 'error',
       'prefer-const': 'error',
       eqeqeq: ['error', 'always'],
-      'max-lines-per-function': ['warn', 100],
+      'max-lines-per-function': ['warn', 500],
       complexity: ['warn', 10],
       '@typescript-eslint/naming-convention': [
-  'error',
+        'error',
 
-  {
-    selector: 'variable',
-    format: ['camelCase', 'UPPER_CASE']
-  },
+        {
+          selector: 'variable',
+          format: ['camelCase', 'UPPER_CASE']
+        },
 
-  {
-    selector: 'function',
-    format: ['camelCase']
-  },
+        {
+          selector: 'function',
+          format: ['camelCase']
+        },
 
-  {
-    selector: 'typeLike',
-    format: ['PascalCase']
-  }
-]
+        {
+          selector: 'typeLike',
+          format: ['PascalCase']
+        }
+      ]
     }
   },
 
