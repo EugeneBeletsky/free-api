@@ -123,6 +123,21 @@ test.describe('Products CRUD', () => {
     expect(data.data.price).toBe(productData.price);
   });
 
+    test('Get product by invalid id', async ({ request }) => {
+    const api = new ProductsApi(request);
+    const authData = UserStorage.loadUser();
+    const productData = ProductStorage.loadProduct();
+    const invalidId = productData._id.slice(0, -4) + '0000';
+
+    const getProductByIdResponse = await api.getProductById(invalidId, authData.accessToken);
+    const data = await getProductByIdResponse.json();
+    expect(getProductByIdResponse.status()).toBe(404);
+
+    expect(data.statusCode).toBe(404);
+    expect(data.success).toBe(false);
+    expect(data.message).toBe('Product does not exist');
+  });
+
   test('Update product by id', async ({ request }) => {
     const api = new ProductsApi(request);
     const userData = UserStorage.loadUser();
