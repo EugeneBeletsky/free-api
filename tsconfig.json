@@ -14,6 +14,7 @@
     "tests/**/*.ts",
     "api/**/*.ts",
     "factories/**/*.ts",
+    "schemas/**/*.ts",
     "playwright.config.ts"
   ]
 }
