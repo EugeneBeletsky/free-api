@@ -4,14 +4,14 @@ import { CategoryPayload } from '../factories/category.factory.js';
 export class ProductsApi {
   constructor(private request: APIRequestContext) {}
 
-  async getAllProducts(page: number = 1, limit: number = 10) : Promise<APIResponse> {
+  async getAllProducts(page: number = 1, limit: number = 10): Promise<APIResponse> {
     const response = await this.request.get(
       `/api/v1/ecommerce/products?page=${page}&limit=${limit}`
     );
     return response;
   }
 
-  async createProduct(body: any, accessToken?: string) : Promise<APIResponse> {
+  async createProduct(body: any, accessToken?: string): Promise<APIResponse> {
     const customHeaders: Record<string, string> = {
       Authorization: `Bearer ${accessToken}`,
       Accept: 'application/json'
@@ -30,13 +30,26 @@ export class ProductsApi {
     return response;
   }
 
-  async getProductById(id: string) : Promise<APIResponse> {
-    const response = await this.request.get(`/api/v1/ecommerce/products/${id}`);
+  async getProductById(id: string, accessToken?: string): Promise<APIResponse> {
+    const response = await this.request.get(`/api/v1/ecommerce/products/${id}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    });
     return response;
   }
 
-  async updateProduct(id: string, body: any): Promise<APIResponse> {
-    const response = await this.request.put(`/api/v1/ecommerce/products/${id}`, { data: body });
+  async updateProduct(id: string, body: any, accessToken?: string): Promise<APIResponse> {
+    const response = await this.request.patch(`/api/v1/ecommerce/products/${id}`, {
+      data: {
+        price: Number(body.price),
+        category: body.category
+      },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        Accept: 'application/json'
+      }
+    });
     return response;
   }
 
@@ -45,14 +58,14 @@ export class ProductsApi {
     return response;
   }
 
-  async getAllCategories(page: number = 1, limit: number = 5) : Promise<APIResponse> {
+  async getAllCategories(page: number = 1, limit: number = 5): Promise<APIResponse> {
     const response = await this.request.get(
       `/api/v1/ecommerce/categories?page=${page}&limit=${limit}`
     );
     return response;
   }
 
-  async createCategory(body: CategoryPayload, accessToken?: string) : Promise<APIResponse> {
+  async createCategory(body: CategoryPayload, accessToken?: string): Promise<APIResponse> {
     const response = await this.request.post('/api/v1/ecommerce/categories', {
       data: body,
       headers: {
