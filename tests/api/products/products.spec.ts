@@ -90,6 +90,22 @@ test.describe('Products CRUD', () => {
     ProductStorage.saveProduct(data.data);
   });
 
+  test('Create product with access with invalid data', async ({ request }) => {
+    const api = new ProductsApi(request);
+    const authData = UserStorage.loadUser();
+    const categoryData = CategoryStorage.loadCategory();
+
+    const payload = createProductPayload(categoryData._id, { price: 'сто' });
+    const createResponse = await api.createProduct(payload, authData.accessToken);
+    const data = await createResponse.json();
+    expect(createResponse.status()).toBe(422);
+
+    expect(data.statusCode).toBe(422);
+    expect(data.success).toBe(false);
+    expect(data.message).toBe('Received data is not valid');
+    expect(data.errors[0].price).toBe('Price must be a number');
+  });
+
   test('Get all products', async ({ request }) => {
     const api = new ProductsApi(request);
     const getAllProductsResponse = await api.getAllProducts();
