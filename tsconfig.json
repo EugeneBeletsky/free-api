@@ -15,6 +15,7 @@
     "api/**/*.ts",
     "factories/**/*.ts",
     "schemas/**/*.ts",
+    "global-setup.ts",
     "playwright.config.ts"
   ]
 }

@@ -1,3 +1,4 @@
+// get common success product schema
 export const productSuccessSchema = {
   type: 'object',
   properties: {
@@ -34,6 +35,7 @@ export const productSuccessSchema = {
   required: ['statusCode', 'data', 'success', 'message']
 };
 
+// get delete product schema
 export const productDeleteSchema = {
   type: 'object',
   properties: {
