@@ -6,7 +6,7 @@ export interface ProductPayload {
   name: string;
   price: number | string; //for invalid inputs tests
   description: string;
-  category?: string;
+  category: string;
   stock: number | string;
   mainImage: any; //stream or buffer
 }

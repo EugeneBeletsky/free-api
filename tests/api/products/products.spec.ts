@@ -12,7 +12,8 @@ import { faker } from '@faker-js/faker';
 import {
   productSuccessSchema,
   productDeleteSchema,
-  productListSchema
+  productListSchema,
+  productWithoutAccessSchema
 } from '../../../schemas/product.schemas.js';
 
 test.describe('Products CRUD', () => {
@@ -28,6 +29,9 @@ test.describe('Products CRUD', () => {
     const data = await createResponse.json();
     expect(data.success).toBe(false);
     expect(data.message).toBe('Unauthorized request');
+
+    //check schema of createProduct unathorized
+    expect(data).toMatchSchema(productWithoutAccessSchema);
   });
 
   test('Get all categories', async ({ request }) => {
@@ -53,6 +57,9 @@ test.describe('Products CRUD', () => {
     expect(data.statusCode).toBe(401);
     expect(data.success).toBe(false);
     expect(data.message).toBe('Unauthorized request');
+
+    //check schema of createCategory unathorized
+    expect(data).toMatchSchema(productWithoutAccessSchema);
   });
 
   test('Create category with access', async ({ request }) => {
@@ -167,6 +174,9 @@ test.describe('Products CRUD', () => {
     expect(data.statusCode).toBe(404);
     expect(data.success).toBe(false);
     expect(data.message).toBe('Product does not exist');
+
+    //check schema of getProductById unathorized
+    expect(data).toMatchSchema(productWithoutAccessSchema);
   });
 
   test('Update product by id', async ({ request }) => {

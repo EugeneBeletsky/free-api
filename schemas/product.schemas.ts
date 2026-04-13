@@ -1,3 +1,4 @@
+// get common success product schema
 export const productSuccessSchema = {
   type: 'object',
   properties: {
@@ -34,6 +35,7 @@ export const productSuccessSchema = {
   required: ['statusCode', 'data', 'success', 'message']
 };
 
+// get delete product schema
 export const productDeleteSchema = {
   type: 'object',
   properties: {
@@ -116,4 +118,20 @@ export const productListSchema = {
     }
   },
   required: ['statusCode', 'data', 'success']
+};
+
+// get create product without access schema
+export const productWithoutAccessSchema = {
+  type: 'object',
+  properties: {
+    statusCode: { type: 'integer' },
+    data: { type: 'null' },
+    success: { type: 'boolean' },
+    errors: { 
+      type: 'array',
+      items: {}
+    },
+    message: { type: 'string' },
+  },
+  required: ['statusCode', 'data', 'success', 'errors', 'message']
 };
