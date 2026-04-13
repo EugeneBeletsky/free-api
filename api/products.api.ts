@@ -13,9 +13,12 @@ export class ProductsApi {
 
   async createProduct(body: any, accessToken?: string): Promise<APIResponse> {
     const customHeaders: Record<string, string> = {
-      Authorization: `Bearer ${accessToken}`,
-      Accept: 'application/json'
-    };
+    Accept: 'application/json'
+  };
+
+  if (accessToken) {
+    customHeaders['Authorization'] = `Bearer ${accessToken}`;
+  }
     const response = await this.request.post('/api/v1/ecommerce/products', {
       headers: customHeaders,
       multipart: {
@@ -66,11 +69,16 @@ export class ProductsApi {
   }
 
   async createCategory(body: CategoryPayload, accessToken?: string): Promise<APIResponse> {
+    const customHeaders: Record<string, string> = {
+    Accept: 'application/json'
+  };
+
+  if (accessToken) {
+    customHeaders['Authorization'] = `Bearer ${accessToken}`;
+  }
     const response = await this.request.post('/api/v1/ecommerce/categories', {
       data: body,
-      headers: {
-        Authorization: `Bearer ${accessToken}`
-      }
+      headers: customHeaders,
     });
     return response;
   }

@@ -12,20 +12,6 @@ import { faker } from '@faker-js/faker';
 test.describe('Products CRUD', () => {
   test.describe.configure({ mode: 'serial' });
 
-  test('Get all products', async ({ request }) => {
-    const api = new ProductsApi(request);
-    const getAllResponse = await api.getAllProducts();
-    expect(getAllResponse.status()).toBe(200);
-
-    const getAllData = await getAllResponse.json();
-    const products = getAllData.data.products;
-    expect(Array.isArray(products)).toBe(true);
-
-    const filePath = path.resolve('products.json');
-    fs.writeFileSync(filePath, JSON.stringify(products, null, 2));
-    console.log(`Saved products: ${products.length}`);
-  });
-
   test('Create product without access', async ({ request }) => {
     const api = new ProductsApi(request);
 
@@ -35,9 +21,7 @@ test.describe('Products CRUD', () => {
     expect(createResponse.status()).toBe(401);
     const data = await createResponse.json();
     expect(data.success).toBe(false);
-    expect(data.message).toBe('jwt malformed');
-
-    console.log('data', data);
+    expect(data.message).toBe('Unauthorized request');
   });
 
   test('Get all categories', async ({ request }) => {
@@ -55,18 +39,14 @@ test.describe('Products CRUD', () => {
 
   test('Create category without access', async ({ request }) => {
     const api = new ProductsApi(request);
-    const authData = UserStorage.loadUser();
-    console.log('authData', authData);
     const payload = createCategoryPayload();
-    console.log('payload', payload);
 
     const createCategoryResponse = await api.createCategory(payload);
     const data = await createCategoryResponse.json();
-    console.log('data', data);
     expect(createCategoryResponse.status()).toBe(401);
     expect(data.statusCode).toBe(401);
     expect(data.success).toBe(false);
-    expect(data.message).toBe('jwt malformed');
+    expect(data.message).toBe('Unauthorized request');
   });
 
   test('Create category with access', async ({ request }) => {
@@ -108,6 +88,20 @@ test.describe('Products CRUD', () => {
     expect(data.data.stock).toBe(payload.stock);
     expect(data.data).toHaveProperty('_id');
     ProductStorage.saveProduct(data.data);
+  });
+
+    test('Get all products', async ({ request }) => {
+    const api = new ProductsApi(request);
+    const getAllResponse = await api.getAllProducts();
+    expect(getAllResponse.status()).toBe(200);
+
+    const getAllData = await getAllResponse.json();
+    const products = getAllData.data.products;
+    expect(Array.isArray(products)).toBe(true);
+
+    const filePath = path.resolve('./data/products.json');
+    fs.writeFileSync(filePath, JSON.stringify(products, null, 2));
+    expect(products.length).toBeGreaterThan(0);
   });
 
   test('Get product by id', async ({ request }) => {
