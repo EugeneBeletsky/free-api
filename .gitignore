@@ -8,7 +8,9 @@ node_modules/
 /playwright/.auth/
 /allure-results/
 
-
+# Shared files
 .env
-shared-user.json
 products.json
+shared-user.json
+shared-category.json
+shared-product.json

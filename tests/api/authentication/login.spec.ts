@@ -4,7 +4,6 @@ import { UserStorage } from '../../../helpers/user.storage.js';
 
 test.describe('Auth Flow', () => {
   test.describe.configure({ mode: 'serial' });
-  let accessToken: string;
 
   test('Login user', async ({ request }) => {
     const api = new AuthApi(request);
@@ -16,7 +15,6 @@ test.describe('Auth Flow', () => {
     expect(loginResponse.status()).toBe(200);
     const data = await loginResponse.json();
 
-    accessToken = data.data.accessToken;
     UserStorage.saveUser(data.data);
 
     expect(data.data).toHaveProperty('accessToken');
