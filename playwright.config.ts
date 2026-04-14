@@ -7,6 +7,7 @@ const dirName = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   globalSetup: path.join(dirName, 'global-setup.ts'),
+  retries: 2,
   use: {
     baseURL: 'https://api.freeapi.app'
     // extraHTTPHeaders: {
