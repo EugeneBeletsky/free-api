@@ -127,11 +127,11 @@ export const productWithoutAccessSchema = {
     statusCode: { type: 'integer' },
     data: { type: 'null' },
     success: { type: 'boolean' },
-    errors: { 
+    errors: {
       type: 'array',
       items: {}
     },
-    message: { type: 'string' },
+    message: { type: 'string' }
   },
   required: ['statusCode', 'data', 'success', 'errors', 'message']
 };

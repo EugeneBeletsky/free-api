@@ -43,7 +43,11 @@ export class ProductsApi {
     return response;
   }
 
-  async updateProduct(id: string, body: Partial<ProductPayload>, accessToken?: string): Promise<APIResponse> {
+  async updateProduct(
+    id: string,
+    body: Partial<ProductPayload>,
+    accessToken?: string
+  ): Promise<APIResponse> {
     const response = await this.request.patch(`/api/v1/ecommerce/products/${id}`, {
       data: {
         price: Number(body.price),
