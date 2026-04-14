@@ -4,14 +4,14 @@ import { createRegisterPayload } from '../../../factories/auth.factory.js';
 import { UserStorage } from '../../../helpers/user.storage.js';
 
 test.describe('Register Flow (verify globalSetup)', () => {
-  test('Registered user data exists in storage', async () => {
+  test('Registered user data exists in storage', { tag: ['@regression', '@P1', '@register'] }, async () => {
     const user = await UserStorage.loadUser();
     expect(user).not.toBeNull();
     expect(user.user).toHaveProperty('username');
     expect(user).toHaveProperty('accessToken');
   });
 
-  test('Can register a new user (smoke test)', async ({ request }) => {
+  test('Can register a new user', { tag: ['@regression', '@P1', '@register'] }, async ({ request }) => {
     const api = new AuthApi(request);
     const payload = createRegisterPayload();
     const registerResponse = await api.register(payload);

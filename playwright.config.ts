@@ -13,7 +13,7 @@ export default defineConfig({
     //   'Content-Type': 'application/json'
     // } because of conflicts when multipart post body
   },
-  reporter: [['list'], ['allure-playwright']],
+  reporter: [['list'], ['allure-playwright'], ['html', { open: 'never' }]],
   projects: [
     {
       name: 'api-tests'

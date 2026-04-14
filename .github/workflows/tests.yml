@@ -54,10 +54,15 @@ jobs:
 
       - name: Generate Allure report
         if: always()
-        uses: simple-elf/allure-report-action@master
+        run: npx allure generate allure-results -o allure-report --clean
+
+      - name: Upload Allure report
+        if: always()
+        uses: actions/upload-artifact@v4
         with:
-          gh_pages: gh-pages
-          allure_results: allure-results
+          name: allure-report
+          path: allure-report/
+          retention-days: 14
 
       - name: Upload Allure results
         if: always()
@@ -67,7 +72,7 @@ jobs:
           path: allure-results
           retention-days: 7
 
-      - name: Upload test results
+      - name: Upload Playwright report
         if: always()
         uses: actions/upload-artifact@v4
         with:

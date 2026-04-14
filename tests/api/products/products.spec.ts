@@ -19,7 +19,7 @@ import {
 test.describe('Products CRUD', () => {
   test.describe.configure({ mode: 'serial' });
 
-  test('Create product without access', async ({ request }) => {
+  test('Create product without access', { tag: ['@regression', '@P3', '@product'] }, async ({ request }) => {
     const api = new ProductsApi(request);
 
     const payload = createProductPayload();
@@ -34,7 +34,7 @@ test.describe('Products CRUD', () => {
     expect(data).toMatchSchema(productWithoutAccessSchema);
   });
 
-  test('Get all categories', async ({ request }) => {
+  test('Get all categories', { tag: ['@regression', '@P2', '@product'] }, async ({ request }) => {
     const api = new ProductsApi(request);
     const getAllCategoriesResponse = await api.getAllCategories();
     const data = await getAllCategoriesResponse.json();
@@ -47,7 +47,7 @@ test.describe('Products CRUD', () => {
     expect(Array.isArray(data.data.categories)).toBe(true);
   });
 
-  test('Create category without access', async ({ request }) => {
+  test('Create category without access', { tag: ['@regression', '@P3', '@product'] }, async ({ request }) => {
     const api = new ProductsApi(request);
     const payload = createCategoryPayload();
 
@@ -62,7 +62,7 @@ test.describe('Products CRUD', () => {
     expect(data).toMatchSchema(productWithoutAccessSchema);
   });
 
-  test('Create category with access', async ({ request }) => {
+  test('Create category with access', { tag: ['@regression', '@P2', '@product'] }, async ({ request }) => {
     const api = new ProductsApi(request);
     const authData = UserStorage.loadUser();
     const payload = createCategoryPayload();
@@ -81,7 +81,7 @@ test.describe('Products CRUD', () => {
     expect(data.message).toBe('Category created successfully');
   });
 
-  test('Create product with access', async ({ request }) => {
+  test('Create product with access', { tag: ['@regression', '@P1', '@product'] }, async ({ request }) => {
     const api = new ProductsApi(request);
     const authData = UserStorage.loadUser();
     const categoryData = CategoryStorage.loadCategory();
@@ -106,7 +106,7 @@ test.describe('Products CRUD', () => {
     expect(data).toMatchSchema(productSuccessSchema);
   });
 
-  test('Create product with access with invalid data', async ({ request }) => {
+  test('Create product with access with invalid data', { tag: ['@regression', '@P2', '@product'] }, async ({ request }) => {
     const api = new ProductsApi(request);
     const authData = UserStorage.loadUser();
     const categoryData = CategoryStorage.loadCategory();
@@ -122,7 +122,7 @@ test.describe('Products CRUD', () => {
     expect(data.errors[0].price).toBe('Price must be a number');
   });
 
-  test('Get all products', async ({ request }) => {
+  test('Get all products', { tag: ['@regression', '@P2', '@product'] }, async ({ request }) => {
     const api = new ProductsApi(request);
     const getAllProductsResponse = await api.getAllProducts();
     expect(getAllProductsResponse.status()).toBe(200);
@@ -139,7 +139,7 @@ test.describe('Products CRUD', () => {
     expect(data).toMatchSchema(productListSchema);
   });
 
-  test('Get product by id', async ({ request }) => {
+  test('Get product by id', { tag: ['@regression', '@P2', '@product'] }, async ({ request }) => {
     const api = new ProductsApi(request);
     const authData = UserStorage.loadUser();
     const productData = ProductStorage.loadProduct();
@@ -161,7 +161,7 @@ test.describe('Products CRUD', () => {
     expect(data).toMatchSchema(productSuccessSchema);
   });
 
-  test('Get product by invalid id', async ({ request }) => {
+  test('Get product by invalid id', { tag: ['@regression', '@P3', '@product'] }, async ({ request }) => {
     const api = new ProductsApi(request);
     const authData = UserStorage.loadUser();
     const productData = ProductStorage.loadProduct();
@@ -179,7 +179,7 @@ test.describe('Products CRUD', () => {
     expect(data).toMatchSchema(productWithoutAccessSchema);
   });
 
-  test('Update product by id', async ({ request }) => {
+  test('Update product by id', { tag: ['@regression', '@P2', '@product'] }, async ({ request }) => {
     const api = new ProductsApi(request);
     const userData = UserStorage.loadUser();
     const productData = ProductStorage.loadProduct();
@@ -203,7 +203,7 @@ test.describe('Products CRUD', () => {
     expect(data.data.price).toBe(newPrice);
   });
 
-  test('Delete product by id', async ({ request }) => {
+  test('Delete product by id', { tag: ['@regression', '@P1', '@product'] }, async ({ request }) => {
     const api = new ProductsApi(request);
     const userData = UserStorage.loadUser();
     const productData = ProductStorage.loadProduct();
