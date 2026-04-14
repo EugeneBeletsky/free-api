@@ -37,11 +37,9 @@ npm install
 | `npm run test:ui`    | Запуск в UI-режиме Playwright       |
 | `npm run test:clean` | Очистка результатов + запуск тестов |
 
-
 ## После запуска тестов можно посмотреть стандартный Playwright HTML отчет
 
 `npx playwright show-report`
-
 
 ## Allure отчёты
 
@@ -66,3 +64,6 @@ npm run clean
 
 1. **Lint Check** — проверка кода через ESLint (обязательная)
 2. **Run API Tests** — запуск тестов + генерация Allure-отчёта
+
+Так же доступен Allure report на GithubPages:
+https://eugenebeletsky.github.io/free-api/#
