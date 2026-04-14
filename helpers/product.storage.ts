@@ -9,6 +9,10 @@ const STORAGE_FILE = path.join(dirName, '../data/shared-product.json');
 
 export class ProductStorage {
   static saveProduct(userData: any) {
+    const dir = path.dirname(STORAGE_FILE);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
     fs.writeFileSync(STORAGE_FILE, JSON.stringify(userData, null, 2));
   }
 
