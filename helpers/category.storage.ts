@@ -9,6 +9,10 @@ const STORAGE_FILE = path.join(dirName, '../data/shared-category.json');
 
 export class CategoryStorage {
   static saveCategory(categoryData: any) {
+    const dir = path.dirname(STORAGE_FILE);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
     fs.writeFileSync(STORAGE_FILE, JSON.stringify(categoryData, null, 2));
   }
 
