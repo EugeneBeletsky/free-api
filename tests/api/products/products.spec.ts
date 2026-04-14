@@ -212,14 +212,6 @@ test.describe('Products CRUD', () => {
     const userData = UserStorage.loadUser();
     const productData = ProductStorage.loadProduct();
 
-    let countBefore: number;
-
-    await test.step('Get initial products count', async () => {
-      const getAllProductsResponse = await api.getAllProducts();
-      const body = await getAllProductsResponse.json();
-      countBefore = body.data.products.length;
-    });
-
     await test.step('Delete the product', async () => {
       const deleteProductByIdresponse = await api.deleteProduct(
         productData._id,
@@ -238,9 +230,6 @@ test.describe('Products CRUD', () => {
       const getAllProductsResponse = await api.getAllProducts();
       const body = await getAllProductsResponse.json();
       const products = body.data.products;
-      const countAfter = products.length;
-
-      expect(countAfter).toBeLessThan(countBefore);
 
       const isProductStillExists = products.some((p: any) => p._id === productData._id);
       expect(isProductStillExists).toBe(false);

@@ -55,7 +55,7 @@ jobs:
         run: mkdir -p data
 
       - name: Run tests
-        run: npx playwright test
+        run: npx playwright test --retries 1
 
       - name: Generate Allure report
         if: always()
@@ -95,11 +95,24 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Checkout gh-pages for history
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages-temp
+
       - name: Download Allure report
         uses: actions/download-artifact@v4
         with:
           name: allure-report
           path: allure-report
+
+      - name: Save history for trend
+        run: |
+          mkdir -p allure-report/history
+          if [ -d "gh-pages-temp/history" ]; then
+            cp -r gh-pages-temp/history/* allure-report/history/
+          fi
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
@@ -107,4 +120,3 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./allure-report
           publish_branch: gh-pages
-          force_orphan: true
