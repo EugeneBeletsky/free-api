@@ -29,7 +29,7 @@ export default async function globalSetup() {
     throw new Error(`Login failed: ${await loginResponse.text()}`);
   }
 
-  const loginData = await loginResponse.json();  
+  const loginData = await loginResponse.json();
   const storedUser = {
     ...loginData.data,
     user: {

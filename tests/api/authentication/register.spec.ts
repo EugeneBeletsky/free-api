@@ -5,7 +5,7 @@ import { UserStorage } from '../../../helpers/user.storage.js';
 
 test.describe('Register Flow (verify globalSetup)', () => {
   test('Registered user data exists in storage', async () => {
-    const user =  await UserStorage.loadUser();
+    const user = await UserStorage.loadUser();
     expect(user).not.toBeNull();
     expect(user.user).toHaveProperty('username');
     expect(user).toHaveProperty('accessToken');

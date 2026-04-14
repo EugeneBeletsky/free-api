@@ -5,7 +5,14 @@ import prettier from 'eslint-config-prettier';
 
 export default [
   {
-    ignores: ['node_modules', 'dist', 'allure-results', 'allure-report', 'playwright-report', 'test-results']
+    ignores: [
+      'node_modules',
+      'dist',
+      'allure-results',
+      'allure-report',
+      'playwright-report',
+      'test-results'
+    ]
   },
 
   js.configs.recommended,

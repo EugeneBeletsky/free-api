@@ -5,11 +5,11 @@ import { UserStorage } from '../../../helpers/user.storage.js';
 test.describe('Auth Flow (after globalSetup)', () => {
   test.describe.configure({ mode: 'serial' });
 
-  test('User is already logged in (has accessToken)', async () => {
+  test('User is already logged in (has accessToken)', () => {
     const authData = UserStorage.loadUser();
     expect(authData).not.toBeNull();
     expect(authData).toHaveProperty('accessToken');
-    expect(authData.accessToken).toBeTruthy();
+    expect(authData?.accessToken).toBeTruthy();
   });
 
   test('Get logged in user', async ({ request }) => {
