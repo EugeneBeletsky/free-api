@@ -37,6 +37,12 @@ npm install
 | `npm run test:ui`    | Запуск в UI-режиме Playwright       |
 | `npm run test:clean` | Очистка результатов + запуск тестов |
 
+
+## После запуска тестов можно посмотреть стандартный Playwright HTML отчет
+
+`npx playwright show-report`
+
+
 ## Allure отчёты
 
 | Команда                   | Описание                                     |
