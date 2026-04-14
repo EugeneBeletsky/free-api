@@ -9,6 +9,7 @@
     "report": "allure serve allure-results",
     "report:generate": "allure generate allure-results -o allure-report --clean",
     "report:open": "allure open allure-report",
+    "report:serve": "npx http-server allure-report -p 9000 -o",
     "report:clean": "rimraf allure-report",
     "clean": "rimraf allure-results test-results allure-report playwright-report",
     "ci:test": "playwright test",
