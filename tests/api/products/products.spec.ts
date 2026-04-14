@@ -130,11 +130,16 @@ test.describe('Products CRUD', () => {
     const data = await getAllProductsResponse.json();
     const products = data.data.products;
     expect(Array.isArray(products)).toBe(true);
-
+    expect(products.length).toBeGreaterThan(0);
+    //write file
     const filePath = path.resolve('./data/products.json');
     fs.writeFileSync(filePath, JSON.stringify(products, null, 2));
-    expect(products.length).toBeGreaterThan(0);
-
+    //check that file exist
+    const isFileCreated = fs.existsSync(filePath);
+    expect(isFileCreated).toBe(true);
+    //check that file not empty
+    const stats = fs.statSync(filePath);
+    expect(stats.size).toBeGreaterThan(0);
     //check schema of getAllProducts
     expect(data).toMatchSchema(productListSchema);
   });
@@ -264,14 +269,14 @@ test.describe('Products CRUD', () => {
           const data = await createResponse.json();
 
           if (testCase.value === 0) {
-            // баг
+            //bug
             expect(createResponse.status()).toBe(201);
             expect(data.statusCode).toBe(201);
             expect(data.success).toBe(true);
             expect(data.message).toBe('Product created successfully');
           }
           if (testCase.value === -1) {
-            // баг
+            //bug
             expect(createResponse.status()).toBe(201);
             expect(data.statusCode).toBe(201);
             expect(data.success).toBe(true);
@@ -279,7 +284,7 @@ test.describe('Products CRUD', () => {
           }
 
           if (testCase.value === 9999999999999) {
-            // потенциально не валидное значение
+            //potentially not valid value
             expect(createResponse.status()).toBe(201);
             expect(data.statusCode).toBe(201);
             expect(data.success).toBe(true);
@@ -287,7 +292,7 @@ test.describe('Products CRUD', () => {
           }
 
           if (testCase.value === 0.001) {
-            // потенциально не валидное значение
+            //potentially not valid value
             expect(createResponse.status()).toBe(201);
             expect(data.statusCode).toBe(201);
             expect(data.success).toBe(true);
